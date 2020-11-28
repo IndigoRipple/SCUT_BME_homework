@@ -31,7 +31,7 @@ def get_clas(s):
 
 
 students=[]
-f=pd.read_excel("C:\\Users\\I-Ripple\\Desktop\\SCUT资料\\Group Project\\project 1\\姓名.xlsx")
+f=pd.read_excel("姓名.xlsx")
 for i in range(31):
     m=SMS(f.iloc[i][1],f.iloc[i][0],f.iloc[i][3],f.iloc[i][2],"BME2")
     students.append(m)
@@ -118,7 +118,7 @@ while (True):
         break
     
 
-op=open("C:\\Users\\I-Ripple\\Desktop\\SCUT资料\\Group Project\\project 1\\a.txt",'w')
+op=open("a.txt",'w')
 for i in students:
     op.write(str(i.ID)+" "+str(i.name)+" "+str(i.age)+" "+str(i.sex)+" "+str(i.clas)+'\n')
 op.close()
