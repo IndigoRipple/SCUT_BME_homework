@@ -1,4 +1,7 @@
 import pandas as pd
+import os
+
+
 class SMS(object):
     def __init__(self, id, name, age, sex, clas):
         self.ID = str(id)
@@ -45,6 +48,7 @@ print("输入'/delete'以删除")
 print("输入'/updata'以更新")
 print("输入'/query'以查询")
 print("输入'/display'以查看全部数据")
+print("输入'/cls'以清屏")
 print("输入'/exit'以退出")
 print("—————————————————————————————————")
 while (True):
@@ -56,19 +60,30 @@ while (True):
         age =int(input("Age:  "))
         sex =input("Sex:  ")
         clas=input("Class:")
-        new_student=SMS(ID,name,age,sex,clas)
-        students.append(new_student)
-        print("操作成功!\n")
-    if(s=="/delete"):
+        if(age>=100):     #待商榷
+            print("操作失败!\n")
+        elif(sex!='男' and sex!='女'):
+            print("操作失败!\n")
+        else:
+            new_student=SMS(ID,name,age,sex,clas)
+            students.append(new_student)
+            print("操作成功!\n")
+    elif(s=="/delete"):
+        opt=False
         ID  =input("ID:   ")
         for i in students:
             if(get_id(i)==ID):
+                opt=True
                 students.remove(i)
-        print("操作成功!\n")
-    if(s=="/updata"):
+                print("操作成功!\n")
+        if(not opt):
+            print("操作失败!\n")
+    elif(s=="/updata"):
+        opt=False
         ID  =input("ID:   ")
         for i in students:
             if(get_id(i)==ID):
+                opt=True
                 print("Name :",get_name(i))
                 print("Age  :",get_age(i))
                 print("Sex  :",get_sex(i))
@@ -79,18 +94,29 @@ while (True):
                 if(change_=='N'):
                     change_char=input("%s'name change to:"%ID)
                     i.change_name(change_char)        
-                if(change_=='A'):
+                    print("操作成功!\n")
+                    break
+                elif(change_=='A'):
                     change_char=input("%s'age change to:"%ID)
                     i.change_age(change_char)
-                if(change_=='S'):
+                    print("操作成功!\n")
+                    break
+                elif(change_=='S'):
                     change_char=input("%s'sex change to:"%ID)
                     i.change_sex(change_char)
-                if(change_=='C'):
+                    print("操作成功!\n")
+                    break
+                elif(change_=='C'):
                     change_char=input("%s'class change to:"%ID)
                     i.change_clas(change_char)
-                print("操作成功!\n")
-                break
-    if(s=="/query"):
+                    print("操作成功!\n")
+                    break
+                else:
+                    print("操作失败!\n")
+                    break
+        if(not opt):
+            print("操作失败!\n")
+    elif(s=="/query"):
         ID  =input("ID:   ")
         for i in students:
             if(get_id(i)==ID):
@@ -100,40 +126,29 @@ while (True):
                 print("Class:",get_clas(i))
                 print()
                 break
-    if(s=="/display"):
+    elif(s=="/display"):
         for i in students:
             print(i)
         print()
-    if(s=="/help"):
+    elif(s=="/help"):
         print("—————————————————————————————————")
         print("Welcome to Student Management System in BME!")
         print("输入'/add'以添加")
         print("输入'/delete'以删除")
         print("输入'/updata'以更新")
         print("输入'/query'以查询")
+        print("输入'/cls'以清屏")
         print("输入'/display'以查看全部数据")
         print("输入'/exit'以退出")
-    if(s=="/exit"):
+    elif(s=="/cls"):
+        os.system('cls')
+    elif(s=="/exit"):
         print("已退出SYS并保存数据于'a.txt'！")
         break
-    
+    else:
+        print("无效输入!\n")
+    op=open("a.txt",'w')
+    for i in students:
+        op.write(str(i.ID)+" "+str(i.name)+" "+str(i.age)+" "+str(i.sex)+" "+str(i.clas)+'\n')
+    op.close()
 
-op=open("a.txt",'w')
-for i in students:
-    op.write(str(i.ID)+" "+str(i.name)+" "+str(i.age)+" "+str(i.sex)+" "+str(i.clas)+'\n')
-op.close()
-
-'''
-import numpy as np 
-from matplotlib import pyplot as plt 
- 
-x = np.arange(1,11) 
-y =  2  * x +  5 
-plt.title("Matplotlib demo") 
-plt.xlabel("x axis caption") 
-plt.ylabel("y axis caption") 
-plt.plot(x,x**0.5,'*b--',label='$y=x^0.5$') 
-plt.legend(loc='best')
-plt.axis([0,10,0,15])
-plt.show()
-'''
